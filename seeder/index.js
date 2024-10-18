@@ -41,6 +41,9 @@ async function main() {
     case "bulk-insert":
       await bulk_insert(Model, seed);
       break;
+    case "get-all":
+      await get_all(Model);
+      break;
     // TODO: Buat logic fungsionalitas yg belum tersedia di bawah
     default:
       throw Error("command not found");
@@ -83,6 +86,20 @@ async function bulk_insert(Model, fileSeed) {
     console.error("MongoDB bulk-insert failed:", err);
   }
   console.log("bulk-insert db process ended...");
+}
+
+// To Get-All DB
+async function get_all(Model) {
+  console.log("get-all started...");
+  try {
+    const getdata = await Model.find({});
+    console.log(getdata);
+    
+    console.log("MongoDB get-all successfull!");
+  } catch (err) {
+    console.error("MongoDB get-all failed:", err);
+  }
+  console.log("get-all db process ended...");
 }
 
 main();
