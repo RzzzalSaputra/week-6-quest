@@ -27,11 +27,15 @@ async function main() {
     director: String,
     cast: [String],
   }, { strict: false });
+
   const Model = mongoose.model(collection, schema);
 
   switch (command) {
     case "check-db-connection":
       await checkConnection();
+      break;
+    case "reset-db":
+      await reset_db(Model);
       break;
     // TODO: Buat logic fungsionalitas yg belum tersedia di bawah
     default:
@@ -51,6 +55,18 @@ async function checkConnection() {
     console.error("MongoDB connection failed:", err);
   }
   console.log("check db connection ended...");
+}
+
+// To Reset DB
+async function reset_db(Model) {
+  console.log("reset-db started...");
+  try {
+    await Model.deleteMany({});
+    console.log("MongoDB reset-db successfull!");
+  } catch (err) {
+    console.error("MongoDB reset-db failed:", err);
+  }
+  console.log("reset db process ended...");
 }
 
 main();
