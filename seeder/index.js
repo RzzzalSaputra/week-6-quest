@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const seed = require("./seed.json");
 require("dotenv").config();
 
 async function main() {
@@ -37,6 +38,9 @@ async function main() {
     case "reset-db":
       await reset_db(Model);
       break;
+    case "bulk-insert":
+      await bulk_insert(Model, seed);
+      break;
     // TODO: Buat logic fungsionalitas yg belum tersedia di bawah
     default:
       throw Error("command not found");
@@ -67,6 +71,18 @@ async function reset_db(Model) {
     console.error("MongoDB reset-db failed:", err);
   }
   console.log("reset db process ended...");
+}
+
+// To Bulk-insert DB
+async function bulk_insert(Model, fileSeed) {
+  console.log("bulk-insert started...");
+  try {
+    await Model.insertMany(fileSeed);
+    console.log("MongoDB bulk-insert successfull!");
+  } catch (err) {
+    console.error("MongoDB bulk-insert failed:", err);
+  }
+  console.log("bulk-insert db process ended...");
 }
 
 main();
